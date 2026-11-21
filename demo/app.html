@@ -134,8 +134,8 @@ $('reset').onclick=()=>{blip([[700,0],[500,.08],[350,.16]]);clearInterval(timer)
 // ---- musik ----
 const TRACKS=[
   {t:'40Hz Gamma Binaural Beats',f:'assets/music/gamma.ogg'},
-  {t:'Lofi Study Room',f:'assets/music/lofi.ogg'},
-  {t:'Rain & Thunderstorm',f:'assets/music/rain.ogg'}];
+  {t:'Brown Noise',f:'assets/music/lofi.ogg'},
+  {t:'Rain Noise',f:'assets/music/rain.ogg'}];
 const audio=new Audio();audio.loop=true;audio.preload='none';
 let ti=Math.min(TRACKS.length-1,+localStorage.getItem('track')||0);
 function setSong(){
