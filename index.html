@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pomeowdoro — a Pomodoro timer with a cat</title>
+<meta name="description" content="Pomeowdoro is a tiny retro Pomodoro timer for Windows. A pixel cat chases your cursor while you focus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f12;--card:#15181d;--line:#262b33;--g:#8fe3a2;--red:#d4242b;--ink:#e8ece6;--mute:#8d96a0}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(700px 500px at 78% 12%,rgba(143,227,162,.10),transparent 70%),radial-gradient(600px 400px at 5% 90%,rgba(212,36,43,.07),transparent 70%)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.px{font-family:'Press Start 2P',monospace}
+nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+nav .logo{font:14px 'Press Start 2P';color:var(--g);text-decoration:none}
+nav a:not(.logo){color:var(--mute);text-decoration:none;margin-left:28px;font-size:15px}
+nav a:not(.logo):hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 16px Inter;color:#fff;background:var(--red);padding:16px 26px;border-radius:12px;text-decoration:none;box-shadow:inset 0 2px 0 rgba(255,255,255,.28),0 4px 0 #7d0a10,0 10px 24px rgba(212,36,43,.3);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.28),0 1px 0 #7d0a10}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+/* 1 hero */
+.hero{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:30px 0 70px}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--g);border:1px solid rgba(143,227,162,.35);padding:5px 12px;border-radius:99px;margin-bottom:24px}
+h1{font:clamp(30px,5.4vw,58px)/1.2 'Press Start 2P';color:var(--ink)}
+h1 em{font-style:normal;color:var(--g);text-shadow:0 0 28px rgba(143,227,162,.35)}
+.lead{margin:26px 0 34px;color:var(--mute);font-size:20px;max-width:470px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.win{flex:none}.small{margin-top:20px;color:var(--mute);font-size:14px}
+.demo{position:relative}
+.demo iframe{display:block;border:0;width:440px;height:672px;background:transparent}
+.hint{position:absolute;left:0;right:0;bottom:-8px;text-align:center;font-size:13px;color:var(--mute)}
+/* 2 features */
+section{padding:70px 0}
+h2{font:clamp(18px,3vw,24px)/1.5 'Press Start 2P';margin-bottom:12px}
+.sec-sub{color:var(--mute);margin-bottom:42px;max-width:520px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 24px}
+.card .n{font:12px 'Press Start 2P';color:var(--g);margin-bottom:18px;display:block}
+.card h3{font-size:19px;margin-bottom:8px}
+.card p{color:var(--mute);font-size:16px}
+/* 3 download */
+.dl{background:linear-gradient(180deg,#171b21,#12151a);border:1px solid var(--line);border-radius:24px;padding:54px 40px;text-align:center}
+.dl p.s{color:var(--mute);margin:12px auto 34px;max-width:480px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:40px;text-align:left}
+.steps div{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px;font-size:15px;color:var(--mute)}
+.steps b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
+@media(max-width:900px){.hero{grid-template-columns:1fr;text-align:center}.lead{margin-left:auto;margin-right:auto}.cta{justify-content:center}.demo{margin:0 auto}nav a:not(.logo){display:none}}
+@media(max-width:480px){.demo iframe{width:340px;height:520px}}
+</style></head>
+<body>
+<div class="wrap">
+  <nav><a class="logo" href="#">POMEOWDORO</a><div><a href="#features">Features</a><a href="#download">Download</a></div></nav>
+
+  <!-- 1. HERO -->
+  <header class="hero">
+    <div>
+      <span class="tag"><svg class="win" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M2 4.5l8.6-1.2v8.1H2zM11.7 3.1L22 1.6v9.8H11.7zM2 12.6h8.6v8.1L2 19.5zM11.7 12.6H22v9.8l-10.3-1.4z"/></svg> Free · Windows only</span>
+      <h1>Pomeow<em>doro</em></h1>
+      <p class="lead">A tiny retro Pomodoro timer with a pixel cat. Your cursor becomes its toy while you get things done.</p>
+      <div class="cta">
+        <a class="btn" href="downloads/Pomeowdoro.exe" download><svg class="win" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M2 4.5l8.6-1.2v8.1H2zM11.7 3.1L22 1.6v9.8H11.7zM2 12.6h8.6v8.1L2 19.5zM11.7 12.6H22v9.8l-10.3-1.4z"/></svg> Download for Windows</a>
+        <a class="btn ghost" href="#features">See features</a>
+      </div>
+      <p class="small">Windows 10 / 11 only · single .exe · no install · not available for macOS or Linux</p>
+    </div>
+    <div class="demo">
+      <iframe src="demo/app.html?z=.8" title="Pomeowdoro live demo" scrolling="no"></iframe>
+      <div class="hint">Live demo: hit START, then move your mouse over the green screen</div>
+    </div>
+  </header>
+
+  <!-- 2. FEATURES -->
+  <section id="features">
+    <h2>Small app, big focus</h2>
+    <p class="sec-sub">Everything fits on one little device. No accounts, no clutter.</p>
+    <div class="grid">
+      <div class="card"><span class="n">01</span><h3>Focus cycles</h3><p>25 minutes of focus, 5 of rest. Click the digits to set whatever length works for you.</p></div>
+      <div class="card"><span class="n">02</span><h3>A cat that plays</h3><p>It naps, wakes up, stretches and chases your cursor like a toy ball around the screen.</p></div>
+      <div class="card"><span class="n">03</span><h3>Focus music</h3><p>Gamma beats, lofi and rain built in. Skip tracks and set the volume right on the device.</p></div>
+      <div class="card"><span class="n">04</span><h3>Task paper</h3><p>Write what you're working on. The paper slides away as your session runs out.</p></div>
+    </div>
+  </section>
+
+  <!-- 3. DOWNLOAD -->
+  <section id="download">
+    <div class="dl">
+      <h2>Get Pomeowdoro</h2>
+      <p class="s">One file, about 110 MB. Double-click and start your first session.</p>
+      <a class="btn" href="downloads/Pomeowdoro.exe" download><svg class="win" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M2 4.5l8.6-1.2v8.1H2zM11.7 3.1L22 1.6v9.8H11.7zM2 12.6h8.6v8.1L2 19.5zM11.7 12.6H22v9.8l-10.3-1.4z"/></svg> Download for Windows (.exe)</a>
+      <div class="steps">
+        <div><b>1. Download</b>Save Pomeowdoro.exe anywhere you like.</div>
+        <div><b>2. Open</b>Double-click it. Nothing to install.</div>
+        <div><b>3. SmartScreen?</b>Click "More info" then "Run anyway". The app isn't code-signed yet.</div>
+      </div>
+    </div>
+  </section>
+  <footer>Made with a very small cat.</footer>
+</div>
+</body></html>

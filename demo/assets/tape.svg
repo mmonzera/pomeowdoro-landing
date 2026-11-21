@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="96" height="32" viewBox="0 0 96 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Tape" clip-path="url(#clip0_0_130)">
+<path id="Vector" d="M2 2L5 5L2 8L5 11L2 14L5 17L2 20L5 23L2 26L5 29H91L88 26L91 23L88 20L91 17L88 14L91 11L88 8L91 5L88 2L91 -1L2 2Z" fill="#B7E4C7" fill-opacity="0.72"/>
+<g id="Vector_2">
+<path d="M8 6H88Z" fill="black"/>
+<path d="M8 6H88" stroke-width="2" stroke-linecap="round" stroke="white" stroke-opacity="0.45"/>
+</g>
+<g id="Vector_3">
+<path d="M8 26H88Z" fill="black"/>
+<path d="M8 26H88" stroke-width="2" stroke-linecap="round" stroke="#37432F" stroke-opacity="0.08"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_130">
+<rect width="96" height="32" fill="white"/>
+</clipPath>
+</defs>
+</svg>
