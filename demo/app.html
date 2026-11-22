@@ -1,241 +1,96 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Pomeowdoro</title>
-<style>
-*{box-sizing:border-box;margin:0}
-html,body{background:transparent;overflow:hidden;font-family:Inter,'Segoe UI',sans-serif;user-select:none}
-#app{position:relative;width:540px;height:819px;-webkit-app-region:drag;zoom:.56}
-.play,.play *{cursor:none !important}
-#ball{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e4ffe9,#8fe3a2 60%);box-shadow:0 0 10px rgba(143,227,162,.7);display:none;pointer-events:none;z-index:5}
-#song{left:132px;top:511px;width:198px;height:42px;border-radius:12px;background:#14211a;border:2px solid #050505;box-shadow:inset 0 4px 10px rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.1);overflow:hidden;color:#8fe3a2;font-size:14px;line-height:38px;white-space:nowrap;letter-spacing:.5px}
-#songt{display:inline-block;padding-left:12px}
-#songt.mq{animation:mq 9s linear infinite;padding-left:0}
-@keyframes mq{from{transform:translateX(198px)}to{transform:translateX(-100%)}}
-#next{left:340px;top:511px;width:44px;height:42px;border:1px solid #0b0b0c;border-radius:12px;background:linear-gradient(to left,#3a3d42,#222428);box-shadow:0 3px 4px rgba(0,0,0,.5),inset 0 2px 2px rgba(255,255,255,.18);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
-#next:active{transform:translateY(2px)}
-#vol{left:394px;top:520px;width:80px;height:24px;-webkit-appearance:none;background:transparent;cursor:pointer;margin:0}
-#vol::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(to right,#8fe3a2 var(--v,50%),#3a3d42 var(--v,50%));box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
-#vol::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-5px;border-radius:50%;background:linear-gradient(#5a5d63,#2a2c30);border:1px solid #0b0b0c;box-shadow:0 2px 3px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.3)}
-#time{background:transparent;border:0;outline:0;font-family:inherit;padding:0;cursor:text;height:75px}
-#time:read-only{cursor:default}
-#time:focus{background:rgba(143,227,162,.12);border-radius:12px}
-#lcdhit{left:63px;top:50px;width:416px;height:308px;-webkit-app-region:no-drag}
-#cat{will-change:transform;transform-origin:50% 100%}
-#fin{left:63px;top:50px;width:416px;height:308px;border-radius:36px;background:rgba(143,227,162,.96);color:#10231a;text-align:center;opacity:0;pointer-events:none;transform:scale(.9);transition:opacity .35s,transform .35s;-webkit-app-region:no-drag;display:flex;flex-direction:column;justify-content:center;gap:10px}
-#fin.on{opacity:1;pointer-events:auto;transform:scale(1)}
-#fin small{font-size:15px;letter-spacing:3px}
-#fin b{font-weight:400;font-size:52px;letter-spacing:-1px;animation:blink 1s steps(2) infinite}
-#fin i{font-style:normal;font-size:14px;opacity:.8}
-@keyframes blink{50%{opacity:.35}}
-.abs{position:absolute}
-button,input{-webkit-app-region:no-drag}
-.paper-back{left:51.56px;top:36px;width:440px;height:246px;background:#1b1d21;border-radius:16px;box-shadow:0 6px 10px rgba(0,0,0,.4);transform:rotate(1.5deg)}
-.paper{left:50px;top:26px;width:440px;height:250px;border:2px solid #4a4f57;border-radius:16px;box-shadow:0 12px 22px rgba(0,0,0,.45),inset 0 3px 4px rgba(255,255,255,.1);background:linear-gradient(to left,#34383e,#2a2e33)}
-.line{left:78px;width:384px;height:2px;background:#434850}
-.lbl{left:78px;top:62px;font-size:13px;letter-spacing:2px;color:#9aa69c}
-#task{left:78px;top:92px;width:384px;font:400 30px Inter,'Segoe UI',sans-serif;color:#e3eadf;background:transparent;border:0;outline:0;padding:0;height:44px}
-#task::placeholder{color:#e3eadf;opacity:.4}
-.device{left:0;top:199px;width:540px;height:620px}
-.casing{left:40px;top:24px;width:462px;height:570px;border:2px solid #44474d;border-radius:58px;box-shadow:0 16px 32px rgba(0,0,0,.5),inset 0 3px 4px rgba(255,255,255,.12);background:linear-gradient(to left,#2d2f34,#1a1b1e)}
-.bezel{left:52px;top:38px;width:438px;height:333px;border-radius:46px;background:#060607;box-shadow:0 3px 4px rgba(0,0,0,.6),inset 0 2px 3px rgba(255,255,255,.1)}
-.lcd{left:63px;top:50px;width:416px;height:308px;border-radius:36px;background:#14211a;box-shadow:inset 0 6px 16px rgba(0,0,0,.65)}
-.btn{border-radius:26px;cursor:pointer;padding:0;text-align:left;font:400 15px Inter,'Segoe UI',sans-serif;color:#f2f2ef;transition:transform .08s,filter .08s}
-.btn:active{transform:translateY(3px);filter:brightness(.9)}
-#pause{left:63px;top:388px;width:204px;height:100px;border:2px solid #4a0508;background:linear-gradient(to left,#d4242b,#a00b12);box-shadow:0 6px 8px rgba(0,0,0,.44),inset 0 3px 3px rgba(255,255,255,.33)}
-#reset{left:283px;top:388px;width:204px;height:100px;border:2px solid #0d0d0e;background:linear-gradient(to left,#464950,#2f3237);box-shadow:0 6px 8px rgba(0,0,0,.44),inset 0 3px 3px rgba(255,255,255,.25)}
-#sound{left:72px;top:511px;width:44px;height:44px;border:1px solid #111;border-radius:12px;background:linear-gradient(to left,#3a3a3a,#1e1e1e);box-shadow:0 3px 4px rgba(0,0,0,.38),inset 0 2px 2px rgba(255,255,255,.25);cursor:pointer}
-.btn span{position:absolute;left:15px;top:14px}
-.ic{position:absolute;pointer-events:none}
-.t{color:#8fe3a2;text-align:center;left:63px;width:416px}
-#sess{top:66px;font-size:15px}
-#time{top:93px;font-size:61px;letter-spacing:-1.3px;line-height:75px}
-#cat{left:172px;top:204px;width:200px;height:138px;opacity:.85;object-fit:contain;image-rendering:pixelated}
-.sys{top:6px;width:28px;height:28px;border-radius:14px;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:16px;line-height:28px;cursor:pointer;opacity:.6}
-.sys:hover{opacity:1}
-.sys{display:none}html,body{background:transparent}</style></head><body>
-<div id="app">
-  <div id="paperwrap" class="abs" style="left:0;top:0;width:540px;height:290px;transition:transform .9s ease">
-  <div class="abs paper-back"></div>
-  <div class="abs paper"></div>
-  <div class="abs line" style="top:150px"></div><div class="abs line" style="top:190px"></div><div class="abs line" style="top:230px"></div>
-  <div class="abs lbl">FOCUS NOW</div>
-  <input id="task" class="abs" placeholder="Write your task here" maxlength="40" spellcheck="false">
-  <img class="abs" src="assets/tape.svg" style="left:222px;top:10px;width:96px;height:32px">
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Pomeowdoro</title>
+<link rel="stylesheet" href="style.css">
+<style>html,body{background:transparent}</style></head><body>
+<div id="island">
+  <!-- collapsed pill -->
+  <div id="pill">
+    <canvas id="pcat" width="320" height="220"></canvas>
+    <div id="pmid"><span id="ptask"></span><span id="peq" class="eq" hidden><i></i><i></i><i></i><i></i></span></div>
+    <span id="ptime">25:00</span>
+    <div id="pbar"><i></i></div>
   </div>
-  <button class="abs sys" style="left:462px" onclick="W('min')">&minus;</button>
-  <button class="abs sys" style="left:496px" onclick="W('close')">&times;</button>
 
-  <div class="abs device">
-    <div class="abs casing"></div><div class="abs bezel"></div><div class="abs lcd"></div><div id="lcdhit" class="abs"></div>
-    <div id="sess" class="abs t">SESSION 1</div>
-    <canvas id="cat" class="abs" width="320" height="220" style="pointer-events:none"></canvas>
-    <input id="time" class="abs t" value="25:00" spellcheck="false" title="Click to edit time (e.g. 30 or 12:30)">
-    <div id="fin" class="abs"><small id="fa"></small><b id="fb"></b><i id="fc"></i></div>
-    <button id="pause" class="abs btn"><span id="plabel">START</span><img id="picon" class="ic" src="assets/play.svg" style="left:157px;top:62px;width:18px;height:18px"></button>
-    <button id="reset" class="abs btn"><span>RESET</span><img class="ic" src="assets/reset.svg" style="left:155px;top:58px;width:24px;height:24px"></button>
-    <button id="sound" class="abs"><img id="sicon" class="ic" src="assets/sound.svg" style="left:8px;top:9px;width:24px;height:24px"></button>
-    <div id="song" class="abs"><span id="songt"></span></div>
-    <button id="next" class="abs" title="Next song"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" style="display:block"><path d="M5 5l9 7-9 7zM16 5h3v14h-3z"/></svg></button>
-    <input id="vol" class="abs" type="range" min="0" max="100" value="50" title="Volume">
-    <div id="ball" class="abs"></div>
+  <!-- expanded panel -->
+  <div id="panel">
+    <div id="tabs">
+      <button data-p="focus" class="on" title="Focus"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span>Focus</span></button>
+      <button data-p="music" title="Music"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span>Music</span></button>
+      <button data-p="shelf" title="Shelf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h5l1 3h6l1-3h5"/></svg><span>Shelf</span></button>
+      <button data-p="set" title="Settings"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Settings</span></button>
+    </div>
+
+    <section id="pg-focus" class="pg on">
+      <div id="fgrid">
+        <div id="tcol">
+          <div id="tseg"><button data-v="today" class="on">Today <b id="cT">0</b></button><button data-v="all">All <b id="cA">0</b></button></div>
+          <div id="tadd"><input id="tin" placeholder="What will you do?" maxlength="60" spellcheck="false"><button id="tdate" title="Set a deadline"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="tdl"></span></button><input type="date" id="tdp" tabindex="-1"></div>
+          <ul id="tlist"></ul>
+          <div id="tnone"></div>
+        </div>
+        <div id="fcol">
+          <div id="lcd">
+            <div id="sess">Session</div>
+            <input id="time" value="25:00" spellcheck="false" title="Click to edit time (e.g. 30 or 12:30)">
+            <canvas id="cat" width="320" height="220"></canvas>
+            <div id="ball"></div>
+          </div>
+          <div id="curtask"><span class="cl">Focusing on</span><span id="curname">Pick a task on the left</span></div>
+          <div id="btns">
+            <button id="go" class="btn red"><span id="golabel">Start</span><svg id="goicon" width="16" height="16" viewBox="0 0 18 18"><path d="M4 2.5v13a.8.8 0 0 0 1.2.7l10.5-6.5a.8.8 0 0 0 0-1.4L5.2 1.8A.8.8 0 0 0 4 2.5z" fill="#fff"/></svg></button>
+            <button id="reset" class="btn grey"><span>Reset</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="pg-music" class="pg">
+      <div id="mbox">
+        <div id="mnone">No media playing.<br><small>Start Spotify, YouTube Music or any player and it shows up here.</small></div>
+        <div id="mhave" hidden>
+          <div id="mtitle">—</div><div id="martist"></div>
+          <div id="lyr" hidden><div id="l0"></div><div id="l1"></div><div id="l2"></div></div>
+          <div id="mctl">
+            <button id="mprev" class="rb" title="Previous"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19 5l-9 7 9 7zM8 5H5v14h3z"/></svg></button>
+            <button id="mplay" class="rb big" title="Play / Pause"><svg id="mplayico" width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></button>
+            <button id="mnext" class="rb" title="Next"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M5 5l9 7-9 7zM16 5h3v14h-3z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pg-shelf" class="pg">
+      <div id="sbox">
+        <div id="sadd"><input id="sin" placeholder="Paste or type text, then press Enter" maxlength="5000" spellcheck="false"><button id="sbtn" class="mb2">Add</button></div>
+        <ul id="slist"></ul>
+        <div id="snone">Drop files or paste text to hold them for a while.<br><small>Click text to copy it again. Drag files back out. Files are not copied.</small></div>
+      </div>
+    </section>
+
+    <section id="pg-set" class="pg">
+      <div id="setlist">
+        <div class="checks">
+          <label><input type="checkbox" id="s-auto"> Launch at login</label>
+          <label><input type="checkbox" id="s-fs"> Hide in full-screen apps</label>
+          <label><input type="checkbox" id="s-snd"> Timer sounds</label>
+          <label><input type="checkbox" id="s-cat"> Cat animations</label>
+          <label><input type="checkbox" id="s-idle"> Shrink to a thin line when idle</label>
+          <label><input type="checkbox" id="s-ap"> Pause music with the timer</label>
+          <label title="Sends the song title and artist to lrclib.net"><input type="checkbox" id="s-lyr"> Synced lyrics (uses lrclib.net)</label>
+        </div>
+        <div class="selects">
+          <label class="sel"><span>Size</span><select id="s-size"><option value="0.7">Small</option><option value="0.85">Medium-small</option><option value="1">Normal</option><option value="1.2">Large</option></select></label>
+          <label class="sel"><span>Monitor</span><select id="s-mon"></select></label>
+        </div>
+        <div class="row"><button class="btn grey sm" id="quit">Quit Pomeowdoro</button><span class="ver">v2.0.0</span></div>
+      </div>
+    </section>
+
+    <div id="fin"><small id="fa"></small><b id="fb"></b><i id="fc"></i></div>
   </div>
 </div>
-<script src="../sprites.js"></script><script>window.require=()=>({ipcRenderer:{send(){}}});document.getElementById("app").style.zoom=new URLSearchParams(location.search).get("z")||.56;</script><script>const {ipcRenderer}=require('electron');
-const W=a=>ipcRenderer.send('win',a);
-let FOCUS=+localStorage.getItem('focus')||25*60,BREAK=+localStorage.getItem('break')||5*60;
-let session=1,isBreak=false,left=FOCUS,running=false,timer=null,sound=true,endAt=0;
-const $=id=>document.getElementById(id);
-function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
-function render(){
-  $('time').value=fmt(left);$('time').readOnly=running;
-  const prog=isBreak?1:Math.min(1,Math.max(0,(FOCUS-left)/FOCUS));
-  $('paperwrap').style.transform='translateY('+(prog*250)+'px)';
-  $('sess').textContent=isBreak?'BREAK':'SESSION '+session;
-  $('plabel').textContent=running?'PAUSE':'START';
-  $('picon').src=running?'assets/pause.svg':'assets/play.svg';
-  document.title=fmt(left)+' - Pomeowdoro';
-}
-function beep(){
-  if(!sound)return;
-  try{const c=new AudioContext();[0,.25,.5].forEach(t=>{const o=c.createOscillator(),g=c.createGain();
-    o.frequency.value=880;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.2,c.currentTime+t);
-    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+.2);o.start(c.currentTime+t);o.stop(c.currentTime+t+.2)})}catch(e){}
-}
-function tick(){
-  left=Math.max(0,Math.round((endAt-Date.now())/1000));
-  if(left<=0){beep();
-    if(isBreak){showFin('BREAK','OVER!','Let\u0027s focus again');isBreak=false;session++;left=FOCUS}
-    else{showFin('SESSION '+session,'FINISHED!','Time for a break');isBreak=true;left=BREAK}
-    endAt=Date.now()+left*1000}
-  render();
-}
-function toggle(){
-  running=!running;
-  if(running){endAt=Date.now()+left*1000;timer=setInterval(tick,250)}else clearInterval(timer);
-  render();
-}
-function blip(seq){
-  if(!sound)return;
-  try{const c=new AudioContext();seq.forEach(([f,t])=>{const o=c.createOscillator(),g=c.createGain();o.type='square';
-    o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.08,c.currentTime+t);
-    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+.09);o.start(c.currentTime+t);o.stop(c.currentTime+t+.1)})}catch(e){}
-}
-const time=$('time');
-time.onfocus=()=>time.select();
-time.onkeydown=e=>{if(e.key==='Enter')time.blur()};
-time.onblur=()=>{
-  if(running){render();return}
-  const m=time.value.trim().match(/^(\d{1,3})(?::(\d{1,2}))?$/);
-  if(m){const s=Math.min(+m[1]*60+(+m[2]||0),180*60);
-    if(s>0){left=s;if(isBreak){BREAK=s;localStorage.setItem('break',s)}else{FOCUS=s;localStorage.setItem('focus',s)}}}
-  render();
-};
-$('pause').onclick=()=>{blip(running?[[500,0],[350,.08]]:[[600,0],[900,.08]]);toggle();syncMusic()};
-$('reset').onclick=()=>{blip([[700,0],[500,.08],[350,.16]]);clearInterval(timer);running=false;isBreak=false;session=1;left=FOCUS;render();syncMusic()};
-// ---- musik ----
-const TRACKS=[
-  {t:'40Hz Gamma Binaural Beats',f:'assets/music/gamma.ogg'},
-  {t:'Brown Noise',f:'assets/music/lofi.ogg'},
-  {t:'Rain Noise',f:'assets/music/rain.ogg'}];
-const audio=new Audio();audio.loop=true;audio.preload='none';
-let ti=Math.min(TRACKS.length-1,+localStorage.getItem('track')||0);
-function setSong(){
-  const el=$('songt');el.classList.remove('mq');
-  el.textContent=(running&&sound?'\u266A ':'')+TRACKS[ti].t;
-  if(el.scrollWidth>186){el.textContent+='     ';el.classList.add('mq')}
-}
-function loadTrack(){audio.src=TRACKS[ti].f;localStorage.setItem('track',ti)}
-function syncMusic(){
-  if(!audio.src)loadTrack();
-  if(running&&sound){audio.play().catch(()=>{})}else audio.pause();
-  setSong();
-}
-$('next').onclick=()=>{ti=(ti+1)%TRACKS.length;loadTrack();syncMusic();blip([[800,0]])};
-const vol=$('vol');
-function setVol(){audio.volume=vol.value/100;vol.style.setProperty('--v',vol.value+'%');localStorage.setItem('vol',vol.value)}
-vol.value=localStorage.getItem('vol')??50;vol.oninput=setVol;setVol();
-setSong();
-$('sound').onclick=()=>{sound=!sound;$('sicon').src=sound?'assets/sound.svg':'assets/mute.svg';syncMusic()};
-$('task').value=localStorage.getItem('task')||'';
-$('task').oninput=e=>localStorage.setItem('task',e.target.value);
-render();
-
-// "SESSION FINISHED" overlay
-let finTimer=null;
-function showFin(a,b,c){
-  $('fa').textContent=a;$('fb').textContent=b;$('fc').textContent=c;
-  $('fin').classList.add('on');clearTimeout(finTimer);finTimer=setTimeout(hideFin,4000);
-}
-function hideFin(){$('fin').classList.remove('on')}
-$('fin').onclick=hideFin;
-
-// kucing: tidur -> bangun (nguap, melek, rentang) -> ngejar kursor -> duduk -> balik tidur
-const lcd=document.querySelector('.lcd'),cat=$('cat'),cx=cat.getContext('2d');
-const sleepImg=new Image();sleepImg.onload=()=>{drawn=''};sleepImg.src='assets/cat.png';
-let st='sleep',pos={x:0,y:0},face=1,mouse=null,lastIn=0,stT=0,dist=0,lastT=0,drawn='';
-function setSt(s,t){st=s;stT=t}
-const ball=$('ball');
-function hideBall(){ball.style.display='none';document.body.classList.remove('play')}
-document.addEventListener('mousemove',e=>{
-  const r=lcd.getBoundingClientRect();
-  if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom){mouse=null;hideBall();return}
-  const k=r.width/416,bx=(e.clientX-r.left)/k,by=(e.clientY-r.top)/k;
-  // kursor jadi bola mainan (kecuali saat di atas angka waktu, supaya bisa diedit)
-  const onTime=e.target===time;
-  document.body.classList.toggle('play',!onTime);
-  ball.style.display=onTime?'none':'block';
-  ball.style.left=(63+bx-8)+'px';ball.style.top=(50+by-8)+'px';
-  // area main kucing di bawah angka waktu: offset badan kucing dari tempat tidurnya
-  mouse={x:Math.max(-109,Math.min(107,bx-209)),y:Math.max(-40,Math.min(22,by-241))};
-  lastIn=performance.now();
-});
-document.addEventListener('mouseleave',()=>{mouse=null;hideBall()});
-function draw(key,fn){if(drawn===key)return;drawn=key;fn()}
-function drawPoseKey(p,o){draw(p+JSON.stringify(o),()=>paintGrid(cx,poseGrid(p,o)))}
-let goal=null,tgtLast={x:0,y:0};
-(function loop(t){
-  const dt=Math.min(.05,(t-lastT)/1000||0);lastT=t;
-  const el=t-stT;
-  if(st==='sleep'){
-    face=1;
-    if(sleepImg.naturalWidth)draw('sleep',()=>{cx.clearRect(0,0,320,220);cx.drawImage(sleepImg,0,0);
-      cx.globalCompositeOperation='source-in';cx.fillStyle=CAT_COLOR;cx.fillRect(0,0,320,220);cx.globalCompositeOperation='source-over'});
-    if(mouse)setSt('wake1',t);
-  }else if(st==='wake1'){        // bangun: duduk, nguap
-    drawPoseKey('sit',{eyes:'closed',yawn:el>300&&el<900});
-    if(el>1100)setSt('wake2',t);
-  }else if(st==='wake2'){        // melek
-    drawPoseKey('sit',{eyes:'open'});
-    if(el>450)setSt('wake3',t);
-  }else if(st==='wake3'){        // rentangin badan
-    drawPoseKey('stretch',{});
-    if(el>800)setSt('idle',t);
-  }else if(st==='idle'){         // duduk, ekor kibas, lihat kursor
-    drawPoseKey('sit',{eyes:'open',wag:Math.floor(t/350)%2});
-    const cxm=pos.x+100;
-    if(mouse){
-      const dx=mouse.x-pos.x,dy=mouse.y-pos.y;
-      if(Math.abs(dx)>6)face=dx>0?1:-1;
-      if(Math.hypot(dx,dy)>40&&el>350){goal='mouse';setSt('run',t)}
-    }else if(t-lastIn>2500){goal='home';setSt('run',t)}
-  }else if(st==='run'){
-    const tgt=goal==='home'?{x:0,y:0}:(mouse||tgtLast);
-    if(mouse)tgtLast={...mouse};
-    const dx=tgt.x-pos.x,dy=tgt.y-pos.y,d=Math.hypot(dx,dy);
-    if(Math.abs(dx)>6)face=dx>0?1:-1;
-    const vmax=goal==='home'?150:230;
-    const v=Math.min(vmax,Math.max(40,d*4),60+el*0.5);   // akselerasi pelan lalu ngerem pas dekat
-    const step=Math.min(d,v*dt);
-    if(d>0.5){pos.x+=dx/d*step;pos.y+=dy/d*step;dist+=step}
-    drawPoseKey('run',{frame:Math.floor(dist/9)%4});
-    if(goal==='mouse'&&!mouse&&t-lastIn>2500)goal='home';
-    if(d<(goal==='home'?2:22)){setSt(goal==='home'?'sleepy':'idle',t)}
-  }else if(st==='sleepy'){       // ngantuk lalu tidur
-    face=1;drawPoseKey('sit',{eyes:'closed'});
-    if(mouse)setSt('wake2',t);else if(el>900){setSt('sleep',t);drawn=''}
-  }
-  cat.style.transform=`translate(${pos.x}px,${pos.y}px) scaleX(${face})`;
-  requestAnimationFrame(loop);
-})(0);
-
-</script></body></html>
-
+<script src="tauri-stub.js"></script>
+<script src="sprites.js"></script>
+<script src="app.js"></script>
+</body></html>
