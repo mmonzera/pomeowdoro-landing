@@ -179,10 +179,10 @@ footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
 .hero .small{margin-top:18px}
 .demo{margin:56px auto 0;width:max-content;max-width:100%}
 .demo::before{inset:-80px -120px;background:radial-gradient(closest-side,rgba(143,227,162,.16),transparent 70%)}
-.demo iframe{width:749px;height:450px;filter:none}
+.demo iframe{width:635px;height:382px;filter:none}
 .demo .hint{margin-top:18px;text-align:center}
-@media(max-width:820px){.demo iframe{zoom:.78}}
-@media(max-width:620px){.demo iframe{zoom:.5}.demo{width:auto}}
+@media(max-width:820px){.demo iframe{zoom:.85}}
+@media(max-width:700px){.demo iframe{zoom:.55}.demo{width:auto}}
 </style></head>
 <body>
 <canvas id="pagecat" width="320" height="220"></canvas><div id="ptr"></div><div id="toast"></div>
@@ -203,7 +203,7 @@ footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
       <p class="small">Windows 10 / 11 only · 1 MB installer · not available for macOS or Linux</p>
     </div>
     <div class="demo">
-      <iframe id="demo" src="demo/app.html" title="Pomeowdoro live demo" scrolling="no"></iframe>
+      <iframe id="demo" src="demo/app.html?v=202611222324" title="Pomeowdoro live demo" scrolling="no"></iframe>
       <div class="hint">This is the real app. Tick a task, hit Start, move your mouse over the green screen.</div>
     </div>
   </header>
@@ -364,6 +364,12 @@ document.querySelectorAll('.dlbtn').forEach(b=>b.addEventListener('click',e=>{
     c.set({x,y});ball.style.opacity=1;ball.style.transform=`translate(${x-5}px,${y-5}px)`;note.style.opacity=0});
   box.addEventListener('mouseleave',()=>{c.set(null);ball.style.opacity=0;note.style.opacity=1});
 })();
+
+/* ---------- demo iframe takes the exact size of the app window (ignore the small collapsed sizes) ---------- */
+addEventListener('message', e => {
+  const d = e.data, f = $('demo');
+  if (d && d.pomeow === 'size' && f && e.source === f.contentWindow && d.w > 400) { f.style.width = d.w + 'px'; f.style.height = d.h + 'px'; }
+});
 
 /* ---------- card 01: countdown ---------- */
 (function(){
