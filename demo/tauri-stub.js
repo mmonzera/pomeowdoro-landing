@@ -1,6 +1,10 @@
 /* Tauri stub: lets the real Pomeowdoro UI run inside a web page as a live demo. */
 (() => {
-  try { if (!localStorage.getItem('p2s')) localStorage.setItem('p2s', JSON.stringify({ idleHide: false, scale: 1, sound: false, lyrics: false })); } catch (e) {}
+  // clean demo every visit: no leftovers from earlier clicks
+  try {
+    ['focus', 'break', 'tasks', 'curTask', 'tview', 'shelf', 'fed'].forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('p2s', JSON.stringify({ idleHide: false, scale: 1.3, sound: false, lyrics: false }));
+  } catch (e) {}
   const handlers = {};
   let media = { has: true, title: 'Lo-fi Focus Beats', artist: 'Pomeow Radio', playing: true, pos_ms: 0, dur_ms: 200000 };
   const emitMedia = () => (handlers.media || []).forEach(h => h({ payload: { ...media } }));

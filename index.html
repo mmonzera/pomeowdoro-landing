@@ -172,6 +172,17 @@ footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
 @media(max-width:860px){.story{padding-left:30px;gap:80px}.feat{grid-template-columns:1fr;gap:20px}.feat:nth-child(odd) .ftext{order:0}.stage .mini{width:100%}.feat::before{left:-30px}.rail{left:8px}}
 @media(prefers-reduced-motion:reduce){.stage .mini,.fl,.demo::before{animation:none}.ftext>*,.feat .stage{opacity:1;transform:none;transition:none}}
 
+/* ===== hero v3: centered headline, the real app shown big underneath ===== */
+.hero{display:block;text-align:center;padding:30px 0 60px}
+.hero .lead{margin:22px auto 30px;max-width:560px}
+.hero .cta{justify-content:center}
+.hero .small{margin-top:18px}
+.demo{margin:56px auto 0;width:max-content;max-width:100%}
+.demo::before{inset:-80px -120px;background:radial-gradient(closest-side,rgba(143,227,162,.16),transparent 70%)}
+.demo iframe{width:749px;height:450px;filter:none}
+.demo .hint{margin-top:18px;text-align:center}
+@media(max-width:820px){.demo iframe{zoom:.78}}
+@media(max-width:620px){.demo iframe{zoom:.5}.demo{width:auto}}
 </style></head>
 <body>
 <canvas id="pagecat" width="320" height="220"></canvas><div id="ptr"></div><div id="toast"></div>
@@ -413,6 +424,10 @@ document.querySelectorAll('.dlbtn').forEach(b=>b.addEventListener('click',e=>{
   }
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onScroll)}},{passive:true});onScroll();
 })();
+
+/* ---------- safety net: if nobody scrolled after a few seconds (screenshot tools, previews), show everything ---------- */
+let scrolled=false;addEventListener('scroll',()=>{scrolled=true},{passive:true});
+setTimeout(()=>{if(!scrolled)document.querySelectorAll('.rv:not(.in)').forEach(e=>e.classList.add('in'))},3500);
 
 /* ---------- reveal on scroll ---------- */
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});
