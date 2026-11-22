@@ -84,8 +84,6 @@ h2{font:clamp(18px,3vw,24px)/1.5 'Press Start 2P';margin-bottom:12px}
 .faq p{color:var(--mute);margin-top:10px;font-size:15px}
 footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
 /* page cat + toast + confetti */
-#pagecat{position:fixed;left:0;top:0;pointer-events:none;image-rendering:pixelated;z-index:40;opacity:.95;will-change:transform}
-#ptr{position:fixed;left:0;top:0;width:12px;height:12px;border-radius:50%;pointer-events:none;z-index:41;background:radial-gradient(circle at 35% 30%,#e4ffe9,#8fe3a2 60%);box-shadow:0 0 12px rgba(143,227,162,.8);opacity:0;transition:opacity .2s;will-change:transform}
 .pf{position:fixed;width:8px;height:8px;pointer-events:none;z-index:60;animation:pf .9s ease-out forwards}
 @keyframes pf{to{transform:translate(var(--dx),var(--dy)) rotate(180deg);opacity:0}}
 #toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:#1d3126;color:var(--g);border:1px solid rgba(143,227,162,.4);padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:.3s;z-index:70;pointer-events:none;max-width:90vw;text-align:center}
@@ -185,10 +183,10 @@ footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
 @media(max-width:700px){.demo iframe{zoom:.55}.demo{width:auto}}
 </style></head>
 <body>
-<canvas id="pagecat" width="320" height="220"></canvas><div id="ptr"></div><div id="toast"></div>
+<div id="toast"></div>
 <div class="wrap">
   <nav><a class="logo" href="#">POMEOWDORO</a>
-    <div class="r"><a href="#features">Features</a><a href="#download">Download</a><button class="toggle" id="cattoggle" title="Toggle the cat that follows your mouse">CAT: ON</button></div></nav>
+    <div class="r"><a href="#features">Features</a><a href="#download">Download</a></div></nav>
 
   <!-- 1. HERO -->
   <header class="hero">
@@ -328,20 +326,6 @@ function chaser(cv,{w=96,bounds,offset=[0,0],sleepy=true,speed=220}){
   if(reduce){el.textContent=txt;el.classList.remove('type');return}
   let i=0;(function n(){el.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(n,22);else setTimeout(()=>el.classList.remove('type'),1500)})();
 })();
-
-/* ---------- cat that follows the page cursor ---------- */
-const pc=$('pagecat'),ptr=$('ptr');
-let pageCat=null,catOn=!reduce;
-if(catOn){
-  pageCat=chaser(pc,{w:84,bounds:()=>({w:innerWidth,h:innerHeight}),offset:[-56,16],sleepy:false,speed:260});
-}
-function applyCat(){pc.style.display=catOn?'block':'none';ptr.style.display=catOn?'block':'none';$('cattoggle').textContent='CAT: '+(catOn?'ON':'OFF');$('cattoggle').classList.toggle('off',!catOn)}
-$('cattoggle').onclick=()=>{catOn=!catOn;if(catOn&&!pageCat)pageCat=chaser(pc,{w:84,bounds:()=>({w:innerWidth,h:innerHeight}),offset:[-56,16],sleepy:false,speed:260});applyCat()};
-applyCat();
-let px=0,py=0,sx=0,sy=0;
-addEventListener('mousemove',e=>{px=e.clientX;py=e.clientY;ptr.style.opacity=1;if(pageCat)pageCat.set({x:px,y:py})});
-document.addEventListener('mouseleave',()=>{ptr.style.opacity=0});
-(function f(){sx+=(px-sx)*.35;sy+=(py-sy)*.35;ptr.style.transform=`translate(${sx-6}px,${sy-6}px)`;requestAnimationFrame(f)})();
 
 /* ---------- toast + confetti ---------- */
 let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),4200)}
