@@ -45,6 +45,7 @@ async function expand() {
   arena.start();
 }
 function collapse() {
+  if (window.__HERO_DEMO) return;                      // landing-page demo stays open
   if (!expanded || popup) return;
   expanded = false;
   isl.classList.remove('open');

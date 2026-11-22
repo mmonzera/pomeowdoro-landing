@@ -125,6 +125,53 @@ footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
 .mini .c:hover .thin{width:150px;height:30px;border-radius:15px}
 .small2{font-size:12px;color:#6f8a77}
 @media(max-width:700px){.demo .screen{zoom:.6}}
+/* ===== hero: the real app, no frame ===== */
+.hero{grid-template-columns:1fr auto;gap:30px}
+.demo{position:relative;isolation:isolate}
+.demo::before{content:"";position:absolute;inset:-60px -40px;background:radial-gradient(closest-side,rgba(143,227,162,.22),rgba(143,227,162,.05) 60%,transparent);z-index:-1;animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.06);opacity:.8}}
+.demo iframe{position:static;transform:none;display:block;width:578px;height:348px;border:0;background:transparent;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
+.demo .hint{position:static;margin-top:16px}
+@media(max-width:1000px){.hero{grid-template-columns:1fr}.demo{margin:0 auto}}
+@media(max-width:620px){.demo iframe{zoom:.6}}
+
+/* ===== story-style features ===== */
+.story{position:relative;display:flex;flex-direction:column;gap:110px;padding-left:46px;margin-top:20px}
+.rail{position:absolute;left:12px;top:0;bottom:0;width:2px;background:repeating-linear-gradient(to bottom,rgba(143,227,162,.22) 0 6px,transparent 6px 14px)}
+.rail i{position:absolute;left:0;top:0;width:2px;height:var(--rp,0%);background:var(--g);box-shadow:0 0 14px var(--g)}
+.feat{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.feat:nth-child(odd) .ftext{order:2}
+.feat::before{content:"";position:absolute;left:-42px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--bg);border:2px solid #34443a;transition:.5s}
+.feat.in::before{background:var(--g);border-color:var(--g);box-shadow:0 0 16px var(--g)}
+.num{display:block;font:44px 'Press Start 2P';color:transparent;-webkit-text-stroke:1px rgba(143,227,162,.45);margin-bottom:14px;transition:color .35s,transform .35s,-webkit-text-stroke-color .35s}
+.feat:hover .num{color:rgba(143,227,162,.14);-webkit-text-stroke-color:var(--g);transform:translateX(8px)}
+.ftext h3{font:600 clamp(24px,3vw,32px)/1.2 Inter;margin-bottom:12px}
+.ftext p{color:var(--mute);font-size:17px;max-width:430px}
+.ftext>*{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.feat.in .ftext>*{opacity:1;transform:none}
+.feat.in .ftext>*:nth-child(2){transition-delay:.12s}.feat.in .ftext>*:nth-child(3){transition-delay:.24s}
+.feat .stage{opacity:0;transform:translateX(40px) scale(.94);transition:opacity .8s .1s,transform .8s .1s cubic-bezier(.2,1.2,.3,1)}
+.feat:nth-child(odd) .stage{transform:translateX(-40px) scale(.94)}
+.feat.in .stage{opacity:1;transform:none}
+.stage{position:relative;height:310px;display:grid;place-items:center;perspective:900px}
+.stage .mini{position:relative;width:360px;height:250px;max-width:100%;margin:0;background:radial-gradient(circle at 28% 25%,#223f2e,#14211a 62%);border-radius:58% 42% 55% 45%/50% 58% 42% 50%;box-shadow:inset 0 8px 24px rgba(0,0,0,.55),0 30px 60px rgba(0,0,0,.5),0 0 70px rgba(143,227,162,.12);animation:morph 10s ease-in-out infinite;transition:box-shadow .4s,transform .15s}
+.stage:hover .mini{box-shadow:inset 0 8px 24px rgba(0,0,0,.55),0 30px 60px rgba(0,0,0,.5),0 0 90px rgba(143,227,162,.28)}
+@keyframes morph{0%,100%{border-radius:58% 42% 55% 45%/50% 58% 42% 50%}33%{border-radius:44% 56% 40% 60%/58% 44% 56% 42%}66%{border-radius:52% 48% 60% 40%/42% 58% 42% 58%}}
+.fl{position:absolute;pointer-events:none;z-index:2;transform:translateY(var(--py,0px));animation:bob 4.5s ease-in-out infinite}
+.fl canvas{display:block;filter:drop-shadow(0 0 8px rgba(143,227,162,.35))}
+.fl:nth-of-type(2){animation-delay:-2s}
+@keyframes bob{50%{translate:0 -12px}}
+.stage .mini .c{padding:0}
+.mb{transition:transform .12s,background .2s,box-shadow .2s}
+.mb:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(143,227,162,.2)}
+.trow,.snip{transition:background .2s,transform .2s}
+.trow:hover,.snip:hover{transform:translateX(4px)}
+.trow.done{animation:pop .4s}
+@keyframes pop{40%{transform:scale(1.05)}}
+.btn .win{transition:transform .25s}.btn:hover .win{transform:rotate(-8deg) scale(1.1)}
+@media(max-width:860px){.story{padding-left:30px;gap:80px}.feat{grid-template-columns:1fr;gap:20px}.feat:nth-child(odd) .ftext{order:0}.stage .mini{width:100%}.feat::before{left:-30px}.rail{left:8px}}
+@media(prefers-reduced-motion:reduce){.stage .mini,.fl,.demo::before{animation:none}.ftext>*,.feat .stage{opacity:1;transform:none;transition:none}}
+
 </style></head>
 <body>
 <canvas id="pagecat" width="320" height="220"></canvas><div id="ptr"></div><div id="toast"></div>
@@ -145,44 +192,66 @@ footer{text-align:center;color:var(--mute);font-size:14px;padding:20px 0 50px}
       <p class="small">Windows 10 / 11 only · 1 MB installer · not available for macOS or Linux</p>
     </div>
     <div class="demo">
-      <div class="screen">
-        <div class="tabs"><i></i><i></i><i></i><span class="tab on">your browser</span><span class="tab">docs</span><span class="tab">mail</span></div>
-        <div class="page"><b></b><b></b><b></b><b class="s"></b><b></b><b class="s"></b></div>
-        <iframe id="demo" src="demo/app.html" title="Pomeowdoro live demo" scrolling="no"></iframe>
-      </div>
-      <div class="hint">Live demo: hover the little pill at the top. Tick a task, start the timer, play with the cat.</div>
+      <iframe id="demo" src="demo/app.html" title="Pomeowdoro live demo" scrolling="no"></iframe>
+      <div class="hint">This is the real app. Tick a task, hit Start, move your mouse over the green screen.</div>
     </div>
   </header>
 
   <!-- 2. FEATURES (each card is playable) -->
   <section id="features">
     <h2 class="rv">Lives at the top of your screen</h2>
-    <p class="sec-sub rv">A thin line when you're not using it. Hover it and it opens into a small panel. Everything you need for a focus session, nothing else.</p>
-    <div class="grid">
-      <div class="card rv"><span class="n">01</span><h3>Focus timer</h3><p>25 minutes of focus, 5 of rest. Click the digits to set any length. The pill shows the countdown and a progress line, even when everything else is collapsed.</p>
-        <div class="mini"><div class="c"><div class="tm" id="m1">25:00</div><div class="pbar"><i id="m1bar"></i></div></div></div></div>
-      <div class="card rv"><span class="n">02</span><h3>A cat that plays</h3><p>Hover the screen. It wakes up and chases your cursor like a toy ball. It naps while you focus and runs a lap when a session ends.</p>
-        <div class="mini" id="m2"><canvas id="m2cat" width="320" height="220"></canvas><div class="ball" id="m2ball"></div><div class="hover-note" id="m2note">zzz… hover me</div></div></div>
-      <div class="card rv"><span class="n">03</span><h3>Plan your day, feed the cat</h3><p>Today and All views, with deadlines. Pick a task and the timer works on it. Finish one and the cat gets a fish.</p>
-        <div class="mini" id="m3"><div class="c" style="align-items:stretch;padding:12px 18px;gap:6px;justify-content:flex-start">
-          <div class="trow" data-t="Write the report"><b class="chk"></b><span>Write the report</span><em>Today</em></div>
-          <div class="trow" data-t="Reply to emails"><b class="chk"></b><span>Reply to emails</span><em>Tomorrow</em></div>
-          <div class="trow" data-t="Book flights"><b class="chk"></b><span>Book flights</span><em class="od">Overdue</em></div>
-          <div class="thanks" id="m3thx">Thank you! 🐟</div></div></div></div>
-      <div class="card rv"><span class="n">04</span><h3>Music &amp; synced lyrics</h3><p>Controls whatever is playing in Spotify, YouTube or any player. Turn on synced lyrics if you want them (looked up on lrclib.net, off by default).</p>
-        <div class="mini" id="m4"><div class="c"><div class="song" id="m4song">Lo-fi Focus Beats</div>
-          <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <div class="row"><button class="mb" id="m4play">PLAY</button><button class="mb" id="m4next">NEXT ▶</button></div></div></div></div>
-      <div class="card rv"><span class="n">05</span><h3>Shelf</h3><p>Drop a file or paste some text and keep it for a while. Click text to copy it again, drag files back out when you need them.</p>
-        <div class="mini" id="m5"><div class="c" style="align-items:stretch;padding:12px 18px;gap:6px;justify-content:flex-start">
-          <div class="snip" data-s="https://meet.example/abc"><b>Aa</b><span>https://meet.example/abc</span></div>
-          <div class="snip" data-s="Call back at 3pm"><b>Aa</b><span>Call back at 3pm</span></div>
-          <div class="snip file"><b>PDF</b><span>invoice-nov.pdf</span></div>
-          <div class="thanks" id="m5thx">Copied!</div></div></div></div>
-      <div class="card rv"><span class="n">06</span><h3>Stays out of your way</h3><p>Hides when you go full-screen, shrinks to a thin line when idle, launches with Windows if you want, and lets you pick size and monitor. No account, no tracking.</p>
-        <div class="mini"><div class="c"><div class="thin"></div><div class="small2">idle</div></div></div></div>
+    <p class="sec-sub rv">A thin line when you're not using it. Hover it and it opens into a small panel. Everything for a focus session, nothing else. Poke around, it all reacts.</p>
+    <div class="story" id="story">
+      <div class="rail"><i id="railfill"></i></div>
+
+      <article class="feat rv">
+        <div class="ftext"><span class="num">01</span><h3>Focus timer</h3><p>25 minutes of focus, 5 of rest. Click the digits to set any length. The pill keeps a countdown and a progress line, even when everything else is collapsed.</p></div>
+        <div class="stage" data-tilt><span class="fl" data-k="star" data-s=".10" style="left:6%;top:12%"></span><span class="fl" data-k="star" data-s="-.07" style="right:8%;bottom:14%"></span>
+          <div class="mini"><div class="c"><div class="tm" id="m1">25:00</div><div class="pbar"><i id="m1bar"></i></div><div class="small2">keeps counting while you read</div></div></div></div>
+      </article>
+
+      <article class="feat rv">
+        <div class="ftext"><span class="num">02</span><h3>A cat that plays</h3><p>Hover the screen and it wakes up, stretches and chases your cursor like a toy ball. It naps while you focus and runs a lap when a session ends.</p></div>
+        <div class="stage" data-tilt><span class="fl" data-k="heart" data-s=".12" style="right:10%;top:10%"></span><span class="fl" data-k="fish" data-s="-.09" style="left:4%;bottom:16%"></span>
+          <div class="mini" id="m2"><canvas id="m2cat" width="320" height="220"></canvas><div class="ball" id="m2ball"></div><div class="hover-note" id="m2note">zzz… hover me</div></div></div>
+      </article>
+
+      <article class="feat rv">
+        <div class="ftext"><span class="num">03</span><h3>Plan your day, feed the cat</h3><p>Today and All views with deadlines. Pick a task and the timer works on it. Finish one and the cat gets a fish. Try ticking one.</p></div>
+        <div class="stage" data-tilt><span class="fl" data-k="fish" data-s=".11" style="left:8%;top:8%"></span><span class="fl" data-k="heart" data-s="-.08" style="right:6%;bottom:12%"></span>
+          <div class="mini" id="m3"><div class="c" style="align-items:stretch;padding:30px 44px;gap:6px;justify-content:center">
+            <div class="trow" data-t="Write the report"><b class="chk"></b><span>Write the report</span><em>Today</em></div>
+            <div class="trow" data-t="Reply to emails"><b class="chk"></b><span>Reply to emails</span><em>Tomorrow</em></div>
+            <div class="trow" data-t="Book flights"><b class="chk"></b><span>Book flights</span><em class="od">Overdue</em></div>
+            <div class="thanks" id="m3thx">Thank you!</div></div></div></div>
+      </article>
+
+      <article class="feat rv">
+        <div class="ftext"><span class="num">04</span><h3>Music &amp; synced lyrics</h3><p>Controls whatever is playing in Spotify, YouTube or any player. Turn on synced lyrics if you want them (looked up on lrclib.net, off by default).</p></div>
+        <div class="stage" data-tilt><span class="fl" data-k="star" data-s=".09" style="right:12%;top:6%"></span><span class="fl" data-k="heart" data-s="-.1" style="left:6%;bottom:10%"></span>
+          <div class="mini" id="m4"><div class="c"><div class="song" id="m4song">Lo-fi Focus Beats</div>
+            <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="row"><button class="mb" id="m4play">PLAY</button><button class="mb" id="m4next">NEXT ▶</button></div></div></div></div>
+      </article>
+
+      <article class="feat rv">
+        <div class="ftext"><span class="num">05</span><h3>Shelf</h3><p>Drop a file or paste some text and keep it for a while. Click text to copy it again, drag files back out when you need them.</p></div>
+        <div class="stage" data-tilt><span class="fl" data-k="star" data-s=".12" style="left:10%;top:10%"></span><span class="fl" data-k="fish" data-s="-.07" style="right:8%;bottom:12%"></span>
+          <div class="mini" id="m5"><div class="c" style="align-items:stretch;padding:30px 44px;gap:6px;justify-content:center">
+            <div class="snip" data-s="https://meet.example/abc"><b>Aa</b><span>https://meet.example/abc</span></div>
+            <div class="snip" data-s="Call back at 3pm"><b>Aa</b><span>Call back at 3pm</span></div>
+            <div class="snip file"><b>PDF</b><span>invoice-nov.pdf</span></div>
+            <div class="thanks" id="m5thx">Copied!</div></div></div></div>
+      </article>
+
+      <article class="feat rv">
+        <div class="ftext"><span class="num">06</span><h3>Stays out of your way</h3><p>Hides when you go full-screen, shrinks to a thin line when idle, launches with Windows if you want, and lets you pick size and monitor. No account, no tracking.</p></div>
+        <div class="stage" data-tilt><span class="fl" data-k="heart" data-s=".1" style="left:8%;top:14%"></span><span class="fl" data-k="star" data-s="-.1" style="right:10%;bottom:10%"></span>
+          <div class="mini"><div class="c"><div class="thin"></div><div class="small2">hover to open</div></div></div></div>
+      </article>
     </div>
   </section>
+
   <!-- 3. DOWNLOAD -->
   <section id="download">
     <div class="dl rv">
@@ -285,12 +354,6 @@ document.querySelectorAll('.dlbtn').forEach(b=>b.addEventListener('click',e=>{
   box.addEventListener('mouseleave',()=>{c.set(null);ball.style.opacity=0;note.style.opacity=1});
 })();
 
-/* ---------- demo iframe follows the "window" size like the real app ---------- */
-addEventListener('message', e => {
-  const d = e.data, f = $('demo');
-  if (d && d.pomeow === 'size' && f && e.source === f.contentWindow) { f.style.width = d.w + 'px'; f.style.height = d.h + 'px'; }
-});
-
 /* ---------- card 01: countdown ---------- */
 (function(){
   const total=1500;let left=total;const el=$('m1'),bar=$('m1bar');
@@ -321,6 +384,34 @@ addEventListener('message', e => {
     try{await navigator.clipboard.writeText(s.dataset.s)}catch(e){}
     thx.classList.add('on');clearTimeout(t);t=setTimeout(()=>thx.classList.remove('on'),1100);
   });
+})();
+
+/* ---------- feature stage: floating pixel decorations, tilt, parallax, rail ---------- */
+(function(){
+  const STAR=['..#..','..#..','#####','..#..','..#..'];
+  const kinds={fish:()=>pixelCanvas(FISH_ROWS,3,'#ffd37a'),heart:()=>pixelCanvas(HEART_ROWS,3,'#ff8aa0'),star:()=>pixelCanvas(STAR,4,'#8fe3a2')};
+  document.querySelectorAll('.fl').forEach(el=>el.appendChild(kinds[el.dataset.k]()));
+  if(reduce)return;
+  // 3D tilt following the pointer
+  document.querySelectorAll('[data-tilt]').forEach(st=>{
+    const m=st.querySelector('.mini');
+    st.addEventListener('mousemove',e=>{
+      const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      m.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+      st.querySelectorAll('.fl').forEach((f,i)=>f.style.marginLeft=(x*(i?-18:18))+'px');
+    });
+    st.addEventListener('mouseleave',()=>{m.style.transform='';st.querySelectorAll('.fl').forEach(f=>f.style.marginLeft='')});
+  });
+  // scroll: parallax on floating pixels + rail progress
+  const fls=[...document.querySelectorAll('.fl')],story=$('story'),rail=$('railfill');
+  let tick=false;
+  function onScroll(){
+    tick=false;const vh=innerHeight;
+    fls.forEach(f=>{const r=f.parentElement.getBoundingClientRect();f.style.setProperty('--py',((r.top+r.height/2-vh/2)*parseFloat(f.dataset.s))+'px')});
+    const r=story.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.55-r.top)/r.height));
+    story.style.setProperty('--rp',(p*100)+'%');
+  }
+  addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onScroll)}},{passive:true});onScroll();
 })();
 
 /* ---------- reveal on scroll ---------- */

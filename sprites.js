@@ -53,8 +53,19 @@ function poseGrid(pose, o = {}) {
     // kaki depan
     line(g, 18, 17, 19, 19);
     line(g, 21, 17, 22, 19);
-  } else if (pose === 'stretch') {
-    ell(g, 12, 10, 7, 3.2);
+  } else if (pose === 'eat') {            // kepala turun makan
+    ell(g, 16, 14.5, 5.2, 5.2);
+    ell(g, 22, 12.5, 3.9, 3.3);
+    [[19, 9], [20, 9], [19, 8], [24, 9], [25, 9], [25, 8]].forEach(p => S(g, p[0], p[1]));
+    S(g, 26, 14);
+    C(g, 21, 12); C(g, 22, 12); C(g, 23, 12);
+    if (o.frame) { C(g, 24, 14); C(g, 25, 14); }
+    line(g, 11, 18, 6, 19);
+    line(g, 6, 19, 5 + (o.frame ? 1 : 0), 15);
+    S(g, 5 + (o.frame ? 1 : 0), 14);
+    line(g, 18, 17, 19, 19);
+    line(g, 21, 17, 22, 19);
+  } else if (pose === 'stretch') {    ell(g, 12, 10, 7, 3.2);
     ell(g, 18, 12.5, 3.2, 3);
     ell(g, 25, 15, 3.4, 2.8);
     line(g, 19, 13, 23, 15); line(g, 19, 14, 23, 16);
@@ -75,4 +86,21 @@ function paintGrid(ctx, g) {
   ctx.clearRect(0, 0, GW * 10, GH * 10);
   ctx.fillStyle = CAT_COLOR;
   for (let y = 0; y < GH; y++) for (let x = 0; x < GW; x++) if (g[y][x]) ctx.fillRect(x * 10, y * 10, 10, 10);
+}
+
+// ikan & hati pixel untuk animasi kasih makan
+const FISH_ROWS = [
+  '..........##....',
+  '....######.###..',
+  '..##########.###',
+  '.###.#########..',
+  '..##########.###',
+  '....######.###..',
+  '..........##....'];
+const HEART_ROWS = ['.##.##.', '#######', '#######', '.#####.', '..###..', '...#...'];
+function pixelCanvas(rows, cell, color) {
+  const c = document.createElement('canvas'); c.width = rows[0].length * cell; c.height = rows.length * cell;
+  const x = c.getContext('2d'); x.fillStyle = color;
+  rows.forEach((r, y) => [...r].forEach((ch, i) => { if (ch === '#') x.fillRect(i * cell, y * cell, cell, cell); }));
+  c.style.imageRendering = 'pixelated'; return c;
 }

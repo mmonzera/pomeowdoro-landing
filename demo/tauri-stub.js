@@ -26,3 +26,11 @@
     drag: { startDrag: () => {} },
   };
 })();
+
+/* hero demo: keep the panel open, like the real app after a hover */
+(() => {
+  window.__HERO_DEMO = true;
+  const root = document.documentElement;
+  root.addEventListener('mouseleave', e => e.stopImmediatePropagation(), true);   // never collapse
+  addEventListener('load', () => setTimeout(() => root.dispatchEvent(new Event('mouseenter')), 250));
+})();
