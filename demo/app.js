@@ -202,6 +202,7 @@ function render() {
 }
 
 function showFin(a, b, c) {
+  openTab('focus');                              // the overlay lives on the Focus page: jump there even if Music/Shelf/Settings is open
   $('fa').textContent = a; $('fb').textContent = b; $('fc').textContent = c;
   $('fin').classList.add('on'); popup = true; finAt = Date.now(); finUntil = finAt + 4000;
   expand();
